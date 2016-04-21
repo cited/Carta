@@ -1,0 +1,527 @@
+.carta-img{
+  background-image: url('images/cartalogo.png');
+  height: 94px;
+  width: 240px;
+  background-repeat: no-repeat;
+}
+.nav {
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+.nav > li {
+  position: relative;
+  display: block;
+}
+.nav > li > a {
+  position: relative;
+  display: block;
+  padding: 10px 15px;
+}
+.nav > li > a:hover,
+.nav > li > a:focus {
+  text-decoration: none;
+  background-color: #eee;
+}
+.nav > li.disabled > a {
+  color: #777;
+}
+.nav > li.disabled > a:hover,
+.nav > li.disabled > a:focus {
+  color: #777;
+  text-decoration: none;
+  cursor: not-allowed;
+  background-color: transparent;
+}
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus {
+  background-color: #eee;
+  border-color: #337ab7;
+}
+.nav .nav-divider {
+  height: 1px;
+  margin: 9px 0;
+  overflow: hidden;
+  background-color: #e5e5e5;
+}
+.nav > li > a > img {
+  max-width: none;
+}
+.nav-tabs {
+  border-bottom: 1px solid #ddd;
+}
+.nav-tabs > li {
+  float: left;
+  margin-bottom: -1px;
+}
+.nav-tabs > li > a {
+  margin-right: 2px;
+  line-height: 1.42857143;
+  border: 1px solid transparent;
+  border-radius: 4px 4px 0 0;
+}
+.nav-tabs > li > a:hover {
+  border-color: #eee #eee #ddd;
+}
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+  color: #555;
+  cursor: default;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-bottom-color: transparent;
+}
+.nav-tabs.nav-justified {
+  width: 100%;
+  border-bottom: 0;
+}
+.nav-tabs.nav-justified > li {
+  float: none;
+}
+.nav-tabs.nav-justified > li > a {
+  /*margin-bottom: 5px;*/
+  text-align: center;
+}
+.nav-tabs.nav-justified > .dropdown .dropdown-menu {
+  top: auto;
+  left: auto;
+}
+
+.tab-content > .tab-pane {
+  display: none;
+  visibility: hidden;
+}
+.tab-content > .active {
+  display: block;
+  visibility: visible;
+}
+
+.modal-open {
+  overflow: hidden;
+}
+.modal {
+  display: none;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  -webkit-overflow-scrolling: touch;
+  outline: 0;
+}
+.modal.fade .modal-dialog {
+  -webkit-transform: translate(0, -25%);
+  -ms-transform: translate(0, -25%);
+  -o-transform: translate(0, -25%);
+  transform: translate(0, -25%);
+  -webkit-transition: -webkit-transform 0.3s ease-out;
+  -o-transition: -o-transform 0.3s ease-out;
+  transition: transform 0.3s ease-out;
+}
+.modal.in .modal-dialog {
+  -webkit-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  -o-transform: translate(0, 0);
+  transform: translate(0, 0);
+}
+.modal-open .modal {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.modal-dialog {
+  position: relative;
+  width: auto;
+  margin: 10px;
+}
+.modal-content {
+  position: relative;
+  background-color: #ffffff;
+  border: 1px solid #999999;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  -webkit-background-clip: padding-box;
+          background-clip: padding-box;
+  outline: 0;
+}
+.modal-backdrop {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  background-color: #000000;
+}
+.modal-backdrop.fade {
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.modal-backdrop.in {
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+.modal-header {
+  padding: 15px;
+  border-bottom: 1px solid #e5e5e5;
+  min-height: 16.42857143px;
+}
+.modal-header .close {
+  margin-top: -2px;
+}
+.modal-title {
+  margin: 0;
+  line-height: 1.42857143;
+}
+.modal-body {
+  position: relative;
+  padding: 15px;
+}
+.modal-footer {
+  padding: 15px;
+  text-align: right;
+  border-top: 1px solid #e5e5e5;
+}
+.modal-footer .btn + .btn {
+  margin-left: 5px;
+  margin-bottom: 0;
+}
+.modal-footer .btn-group .btn + .btn {
+  margin-left: -1px;
+}
+.modal-footer .btn-block + .btn-block {
+  margin-left: 0;
+}
+.modal-scrollbar-measure {
+  position: absolute;
+  top: -9999px;
+  width: 50px;
+  height: 50px;
+  overflow: scroll;
+}
+@media (min-width: 768px) {
+  .modal-dialog {
+    width: 600px;
+    margin: 30px auto;
+  }
+  .modal-content {
+    -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  }
+  .modal-sm {
+    width: 300px;
+  }
+}
+@media (min-width: 992px) {
+  .modal-lg {
+    width: 900px;
+  }
+}
+.clearfix:before,
+.clearfix:after,
+.modal-footer:before,
+.modal-footer:after {
+  content: " ";
+  display: table;
+}
+.clearfix:after,
+.modal-footer:after {
+  clear: both;
+}
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.pull-right {
+  float: right !important;
+}
+.pull-left {
+  float: left !important;
+}
+.hide {
+  display: none !important;
+}
+.show {
+  display: block !important;
+}
+.invisible {
+  visibility: hidden;
+}
+.text-hide {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+.hidden {
+  display: none !important;
+  visibility: hidden !important;
+}
+.affix {
+  position: fixed;
+}
+
+/* #carta_myModal table{
+  margin-bottom: 0px;
+}
+
+#carta_myModal table tr td{
+  margin-bottom: 0px;
+  width: 50%;
+}
+
+#menuCustomProperties tr:first-child td, #menuStyle tr:first-child td{
+  border-top: 0px;
+}
+ */
+
+#menuStyle tr td:first-child{
+  width:20%;
+}
+#carta_myModal table{
+  margin-top: 10px;
+} 
+
+#carta_myModal table tr td{
+  vertical-align: middle;
+}
+#carta_myModal #menyStyle input, #carta_myModal #menuBasic input{
+  width: 100%;
+  margin: 0px;
+}
+
+.nav-tabs.nav-justified > li{
+  float: left;
+}
+.colpick {
+    z-index: 1050;
+}
+.leaflet-popup-content img{
+	max-width:100%!important;
+}
+
+#save_map_form input{
+    width: 80%;
+}
+
+.sidebar-buttons {
+        display: none; z-index: 999999; opacity: 0; left: -50px; margin-top: 4px;position: absolute;padding: 5px; min-width: 200px;height: auto; color: rgb(51, 51, 51);  box-shadow: rgba(0, 0, 0, 0.65098) 0px 1px 5px;border-radius: 4px;background:#fff;
+      }
+      .sidebar-buttons ul.leaflet-sidebar li a{
+        cursor:pointer;
+        text-decoration: none;
+        display: inline;
+        outline:none;
+        color:#000;
+      }
+      .sidebar-buttons ul.leaflet-sidebar{
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .sidebar-buttons ul.leaflet-sidebar li input[type=checkbox]{
+        outline:none;
+      }
+      .sidebar-buttons ul.leaflet-sidebar li{
+        display: inline;
+      }
+      .clear{
+        clear:both;
+      }
+      .carta-modal-open .carta-modal {
+      overflow-x: hidden;
+      overflow-y: auto;
+      }
+      .carta-fade.carta-in {
+      opacity: 1;
+      }
+      .carta-modal {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1040;
+      display: none;
+      overflow: hidden;
+      -webkit-overflow-scrolling: touch;
+      outline: 0;
+      }
+      .carta-fade {
+      opacity: 0;
+      -webkit-transition: opacity .15s linear;
+      -o-transition: opacity .15s linear;
+      transition: opacity .15s linear;
+      }
+      .carta-modaldialog * {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      }
+      .carta-modal-backdrop.carta-in {
+      filter: alpha(opacity=50) !important;
+      opacity: .5 !important;
+      }
+      .carta-modal-backdrop.carta-fade {
+      filter: alpha(opacity=0);
+      opacity: 0;
+      }
+      .carta-modal-backdrop {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      background-color: #000;
+      }
+      .carta-modal.carta-in .carta-modal-dialog {
+      -webkit-transform: translate(0,0);
+      -ms-transform: translate(0,0);
+      -o-transform: translate(0,0);
+      transform: translate(0,0);
+      }
+      .carta-modal.carta-fade .carta-modal-dialog {
+      -webkit-transition: -webkit-transform .3s ease-out;
+      -o-transition: -o-transform .3s ease-out;
+      transition: transform .3s ease-out;
+      -webkit-transform: translate(0,-25%);
+      -ms-transform: translate(0,-25%);
+      -o-transform: translate(0,-25%);
+      transform: translate(0,-25%);
+      }
+      @media (min-width: 768px)
+      .carta-modal-dialog {
+      width: 600px;
+      margin: 30px auto;
+      }
+      .carta-modal-dialog {
+      position: relative;
+      width: auto;
+      margin: 10px;
+      }
+      @media (min-width: 768px)
+      .carta-modal-content {
+      -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      }
+      .carta-modal-content {
+      position: relative;
+      background-color: #FFF;
+      -webkit-background-clip: padding-box;
+      background-clip: padding-box;
+      border: 1px solid #999;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 6px;
+      outline: 0;
+      -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+      }
+      .carta-modal-header {
+      min-height: 16.43px;
+      padding: 15px;
+      border-bottom: 1px solid #E5E5E5;
+      }
+      .carta-modal-title {
+      margin: 0;
+      line-height: 1.42857143;
+      }
+      .carta-h4 {
+      font-size: 18px;
+      }
+      .carta-h4 {
+      font-family: inherit;
+      font-weight: 500;
+      color: inherit;
+      }
+      .carta-modal-body {
+      position: relative;
+      padding: 15px;
+      }
+      .carta-modal-footer {
+      padding: 15px;
+      text-align: right;
+      border-top: 1px solid #E5E5E5;
+      }
+      .carta-btn-default {
+      color: #333;
+      background-color: #FFF;
+      border-color: #CCC;
+      }
+    .carta-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      margin-bottom: 0;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.42857143;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: middle;
+      -ms-touch-action: manipulation;
+      touch-action: manipulation;
+      cursor: pointer;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      background-image: none;
+      border: 1px solid rgba(0, 0, 0, 0);
+      border-radius: 4px;
+    }
+    button.carta-button {
+      font-family: inherit;
+      font-size: inherit;
+      line-height: inherit;
+    }
+    button.carta-button {
+      -webkit-appearance: button;
+      cursor: pointer;
+    }
+      button.carta-button {
+      text-transform: none;
+    }
+    button.carta-button {
+      overflow: visible;
+    }
+    button.carta-button {
+      margin: 0;
+      font: inherit;
+      color: inherit;
+    }
+    .carta-btn-default:active, .carta-btn-default:focus, .carta-btn-default:hover {
+      color: #333;
+      background-color: #E6E6E6;
+      border-color: #ADADAD;
+    }
+    .carta-btn:focus, .carta-btn:hover {
+      color: #333;
+      text-decoration: none;
+    }
+    
+    .item  .leaflet-container {
+        font-size: 0px;
+    }    
+    .item  .leaflet-control-container{
+        font-size: 14px;
+    }
+
+    .carta_slider_container{
+        /* float: left;
+        margin: 5px; */
+        clear: both;
+        padding-bottom:20px; 
+    }
+
+    .carta_slider_container label{
+        float: left;
+        margin-right: 10px;       
+    }
+    .carta_slider_container .slider{
+        float: left;
+        margin-right: 10px;
+        width: 50%;
+    }
