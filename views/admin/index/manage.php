@@ -36,8 +36,8 @@ if (!empty($carta->pointers)) {
 
 
 
-<link href='https://cdn.carta.com/carta-cdn/leaflet.draw.css' rel='stylesheet' />
-<script src='https://cdn.carta.com/carta-cdn/leaflet.draw.js'></script>
+<link href='https://cdn.mapfig.com/mapfig-cdn/leaflet.draw.css' rel='stylesheet' />
+<script src='https://cdn.mapfig.com/mapfig-cdn/leaflet.draw.js'></script>
 
 <link href='<?php echo admin_url("../") ?>plugins/Carta/css/carta.css' rel='stylesheet' />
 <script type="text/javascript" src="<?php echo admin_url("../") ?>plugins/Carta/js/modal.js"></script>
