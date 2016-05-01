@@ -2,7 +2,7 @@
 
 class Table_Carta extends Omeka_Db_Table
 {
-	public function getByType($type){
+	public function getByType(){
 
 		$db = get_db();
        
@@ -47,7 +47,7 @@ class Table_Carta extends Omeka_Db_Table
         return ;
     }
 
-    function delete($id, $type){
+    function delete($id){
 
         $db = get_db();
         $sql = '';
