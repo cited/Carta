@@ -81,7 +81,7 @@ class Carta_IndexController extends Omeka_Controller_AbstractActionController
 		$this->render("manage");
     }    
 
-    public function editAction($id){
+    public function editAction(){
 	
 		$id = basename($_SERVER['REQUEST_URI']);
 		
@@ -146,27 +146,17 @@ class Carta_IndexController extends Omeka_Controller_AbstractActionController
 
     }   
 
-    public function deleteAction($id){
-	
-
+    public function deleteAction(){
 		$id = basename($_SERVER['REQUEST_URI']);
-		
 		$this->cartaObj->delete($id, "map");
-		
-
 		header("location:" . url("carta"));
-		
 		exit;
-
     }
 
 
     public function addlayergroupAction(){
-		
-		$this->view->baselayer = $this->layerObj->getAll();  
-
+	$this->view->baselayer = $this->layerObj->getAll();  
     	$this->view->selected_baselayer = array();
-    	
     	$this->view->layer_group_id = "";
     	$this->render("managelayergroup");    
     }
