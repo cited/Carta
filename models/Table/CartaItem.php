@@ -60,7 +60,7 @@ class Table_CartaItem extends Omeka_Db_Table
         return ;
     }
 
-    function delete($id, $type){
+    function delete($id){
 
         $db = get_db();
         $sql = '';
