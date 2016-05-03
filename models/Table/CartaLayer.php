@@ -26,7 +26,7 @@ class Table_CartaLayer extends Omeka_Db_Table
         return $carta;
     }
 
-	function insert($cartadata){       
+	function insert($cartadata){
                 
         $db = get_db();
         $sql = $this->makeInsertQuery($cartadata);
