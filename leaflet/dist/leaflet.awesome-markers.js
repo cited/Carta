@@ -20,9 +20,9 @@
 
     L.AwesomeMarkers.Icon = L.Icon.extend({
         options: {
-            iconSize: [35, 45],
-            iconAnchor:   [17, 42],
-            popupAnchor: [1, -32],
+            iconSize: [60, 60],
+            iconAnchor:   [29, 58],
+            popupAnchor: [1, -48],
             shadowAnchor: [10, 12],
             shadowSize: [36, 16],
             className: 'awesome-marker',
