@@ -51,12 +51,9 @@ class Table_Carta extends Omeka_Db_Table
 
         $db = get_db();
         $sql = '';
-        if ($type == "map"){
-            $sql = "DELETE from $db->Carta where id='{$id}'";
-        }
+		$sql = "DELETE from $db->Carta where id='{$id}'";
 
         $db->query($sql);
-
     }
 
     
