@@ -22,10 +22,7 @@ class Carta_IndexController extends Omeka_Controller_AbstractActionController
 		
     }
     
-    public function saveAction() {   
-	    
-	    //$carta = $this->getJsonData("carta");
-
+    public function saveAction() {
     	$cartaDetail = array();
 	    $cartaDetail['name'] = $_POST['carta_name'];
 	    $cartaDetail['width'] = $_POST['carta_width'];
@@ -33,9 +30,18 @@ class Carta_IndexController extends Omeka_Controller_AbstractActionController
 	    $cartaDetail['zoom'] = $_POST['carta_zoom'];
 	    $cartaDetail['baselayer'] = $_POST['baselayer'];
 	    $cartaDetail['layergroup'] = $_POST['layer_group'];
-	     	    
+	    $cartaDetail['geo_image_olverlays'] = base64_encode(str_replace("\n", "<br>", str_replace("\r", "", $_POST['geo_image_olverlays'])));
 	    $cartaDetail['pointers'] = base64_encode(serialize($_POST['geo_json_str']));
-
+	    
+		$cartaDetail['show_sidebar'] = isset($_POST['show_sidebar']);
+		$cartaDetail['show_measure'] = isset($_POST['show_measure']);
+		$cartaDetail['show_minimap'] = isset($_POST['show_minimap']);
+		
+		$cartaDetail['show_legend'] = isset($_POST['show_legend']);
+		$cartaDetail['legend_content'] = base64_encode($_POST['legend_content']);
+		
+		$cartaDetail['latitude'] = $_POST['latitude'];
+		$cartaDetail['longitude'] = $_POST['longitude'];
 
  	    $carta_id = $_POST['carta_id'];
 
@@ -386,6 +392,59 @@ class Carta_IndexController extends Omeka_Controller_AbstractActionController
 		exit;
 	}
 	
+	function jsonuploadfileAction() {
+		$response = array();
+		
+		$rand = time();
+		$image_url = admin_url("../")."files/image_overlays_".$rand.'/';
+		$target_dir = dirname(__FILE__)."/../../../files/image_overlays_".$rand;
+		@mkdir($target_dir);
+		
+		$target_file = $target_dir .'/'. basename($_FILES["image_overlays_file"]["name"]);
+		$uploadOk = 1;
+		$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+		// Check if image file is a actual image or fake image
+		if(isset($_POST["submit"])) {
+			$check = getimagesize($_FILES["image_overlays_file"]["tmp_name"]);
+			if($check !== false) {
+				$uploadOk = 1;
+			} else {
+				$response = array('success' => false, 'message' => 'File is not an image');
+				$uploadOk = 0;
+			}
+		}
+		// Check if file already exists
+		if (file_exists($target_file)) {
+			$response = array('success' => false, 'message' => 'Sorry, file already exists');
+			$uploadOk = 0;
+		}
+		// Check file size
+		if ($_FILES["image_overlays_file"]["size"] > 500000) {
+			$response = array('success' => false, 'message' => 'Sorry, your file is too large');
+			$uploadOk = 0;
+		}
+		// Allow certain file formats
+		if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+		&& $imageFileType != "gif" ) {
+			$response = array('success' => false, 'message' => 'Sorry, only JPG, JPEG, PNG & GIF files are allowed');
+			$uploadOk = 0;
+		}
+		// Check if $uploadOk is set to 0 by an error
+		if ($uploadOk == 0) {
+			$response = array('success' => false, 'message' => 'Sorry, your file was not uploaded');
+		// if everything is ok, try to upload file
+		} else {
+			if (move_uploaded_file($_FILES["image_overlays_file"]["tmp_name"], $target_file)) {
+				$response = array('success' => true, 'src' => $image_url.$_FILES["image_overlays_file"]["name"], 'name' => $_FILES["image_overlays_file"]["name"]);
+			} else {
+				$response = array('success' => false, 'message' => 'Sorry, there was an error uploading your file');
+			}
+		}
+		
+		echo json_encode($response);
+		exit;
+	}
+	
 	public function getrecordsAction() {
 		$db = get_db();
 		$prefix = $db->prefix;
@@ -411,13 +470,20 @@ class Carta_IndexController extends Omeka_Controller_AbstractActionController
 				WHERE oet.record_type = '".ucwords($type)."'";
 		$res = $db->fetchObjects($sql);
 		
-		//$data = array();
-		echo '<option value="" selected>[Select '.ucwords($type).'s]</option>';
+		$output = '<option value="" selected>[Select '.ucwords($type).'s]</option>';
 		foreach($res as $r) {
 			$data = array('item_id' => $r->item_id, 'name' => $r->name, 'text' => $r->text);
 			
-			echo "<option value='$r->item_id'>".ucwords($type)." # $r->item_id". (($r->text) ? ' : ' . $r->text : '') . "</option>" ;
+			$output .= "<option value='$r->item_id'>".ucwords($type)." # $r->item_id". (($r->text) ? ' : ' . $r->text : '') . "</option>" ;
 		}
+		
+		$responsive = array(
+			'success' => true,
+			'output' => $output
+		);
+		
+		header("Content-Type: application/json");
+		echo json_encode($responsive);
 		exit;
     }
 	
@@ -472,11 +538,17 @@ class Carta_IndexController extends Omeka_Controller_AbstractActionController
 				WHERE oe.public = true";
 		$res = $db->fetchObjects($sql);
 		
-		echo '<option value="" selected>[Select Exhibits]</option>';
+		$output = '<option value="" selected>[Select Exhibits]</option>';
 		foreach($res as $r) {
-			echo "<option value='$r->id'>Title ". (($r->title) ? ' : ' . $r->title : '') . "</option>";
+			$output .= "<option value='$r->id'>Title ". (($r->title) ? ' : ' . $r->title : '') . "</option>";
 		}
+		$responsive = array(
+			'success' => true,
+			'output' => $output
+		);
 		
+		header("Content-Type: application/json");
+		echo json_encode($responsive);
 		exit;
     }
 	
