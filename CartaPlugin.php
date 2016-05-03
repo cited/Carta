@@ -51,11 +51,38 @@ class CartaPlugin extends Omeka_Plugin_AbstractPlugin
         $db->query("DROP TABLE IF EXISTS `$db->CartaGroup`");
         $db->query("DROP TABLE IF EXISTS `$db->CartaLayer`");
         $db->query("DROP TABLE IF EXISTS `$db->CartaItem`");
-
+		$db->query("DELETE FROM `$db->ElementSets` WHERE name = '_carta_version'");
     }
         
-    public function hookInitialize(){      
-      add_shortcode ('carta', array($this,'cartaShortcode'));
+    public function hookInitialize() {
+		$CurrentVersion = 4;
+		$elementSet = get_db()->getTable('ElementSet')->findBySql("name = '_carta_version'");
+		$db = get_db();
+		
+		if(!$elementSet) {
+			$db->query("INSERT INTO `$db->ElementSets` (name, description) VALUES ('_carta_version', '{$CurrentVersion}')");
+			$elementSet = get_db()->getTable('ElementSet')->findBySql("name = '_carta_version'");
+		}
+		
+		if((int) $elementSet[0]->description <= 0) {
+			$db->query("ALTER TABLE `$db->Carta` ADD COLUMN geo_image_olverlays LONGTEXT NOT NULL");
+		}
+		if((int) $elementSet[0]->description <= 1) {
+			$db->query("ALTER TABLE `$db->Carta` ADD COLUMN show_sidebar BOOLEAN NOT NULL DEFAULT TRUE");
+			$db->query("ALTER TABLE `$db->Carta` ADD COLUMN show_minimap BOOLEAN NOT NULL DEFAULT TRUE");
+			$db->query("ALTER TABLE `$db->Carta` ADD COLUMN show_measure BOOLEAN NOT NULL DEFAULT TRUE");
+		}
+		if((int) $elementSet[0]->description <= 2) {
+			$db->query("ALTER TABLE `$db->Carta` ADD COLUMN show_legend BOOLEAN NOT NULL DEFAULT FALSE");
+			$db->query("ALTER TABLE `$db->Carta` ADD COLUMN legend_content longtext NOT NULL DEFAULT ''");
+		}
+		if((int) $elementSet[0]->description <= 3) {
+			$db->query("ALTER TABLE `$db->Carta` ADD COLUMN latitude varchar(100) NOT NULL DEFAULT '0'");
+			$db->query("ALTER TABLE `$db->Carta` ADD COLUMN longitude varchar(100) NOT NULL DEFAULT '0'");
+		}
+		
+		$db->query("UPDATE `$db->ElementSets` SET description = '{$CurrentVersion}' WHERE name = '_carta_version'");
+		add_shortcode ('carta', array($this,'cartaShortcode'));
     }
     
     public function cartaShortcode($args){        
