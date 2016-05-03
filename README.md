@@ -3,13 +3,15 @@
 Leaflet Plugin for Omeka
 
 Stand alone plugin for adding Leaflet maps to your Omeka installation
-# Version 1.0
+# Version 1.2.1
 
 ## Description
 
 Add Leaflet maps via shortcode to your pages, exhibits, items, and collections.
 
 You can also import Item, Exhibit, and Collection fields into your maps.
+
+Basic image overlay is also included.
 
 The plugin is tile-agnostic, allowing you to use any tile provider.  
 
@@ -27,5 +29,5 @@ Activate the plugin from the Omeka plugins page
 
   - Please check here or at docs site for examples.
   
-  - Please report any issues to **[plugins(at)acugis(dot).com](mailto:plugins@acugis.com)**.
+  - Please report any issues to **[hello(at)acugis(dot).com](mailto:hello@acugis.com)**.
  
