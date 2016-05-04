@@ -24,9 +24,13 @@ Maps can be added to directly to pages, as Items in collections, and Exhibit pag
 ## Change Log
 
 Added MiniMap
+
 Added Auto Zoom and Center for map canvas
+
 Added import for item, collection, and exhibit fields
+
 Added basic image overlay
+
 Added opacity controls
 
 ## Installation
