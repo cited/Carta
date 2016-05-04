@@ -11,15 +11,23 @@ Add Leaflet maps via shortcode to your pages, exhibits, items, and collections.
 
 You can also import Item, Exhibit, and Collection fields into your maps.
 
-Basic image overlay is also included.
+Basic image overlay is also included, as well as overlay opacity control for initial setting and user control.
 
 The plugin is tile-agnostic, allowing you to use any tile provider.  
 
-A group of 6 tile providers, 5 tile groups, and a demo map are created on installation.
+6 tile groups are included, and a demo map are created on installation.
 
 The plugin supports markers, lines, and polygons and includes a WYSIWYG editor for displaying formatted text, images, and links to InfoBoxes. 
 
 Maps can be added to directly to pages, as Items in collections, and Exhibit pages.
+
+## Change Log
+
+Added MiniMap
+Added Auto Zoom and Center for map canvas
+Added import for item, collection, and exhibit fields
+Added basic image overlay
+Added opacity controls
 
 ## Installation
 
