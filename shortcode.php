@@ -51,27 +51,7 @@ $baseLayers = implode(",", $baseLayers);
   
 $first_lat = $carta->latitude;
 $first_lng = $carta->longitude;
-/*
-if (!empty($carta->pointers)) {
-    $parseData = json_decode(unserialize(base64_decode($carta->pointers)));
-    
-    //$first_lat = $parseData[0]->geometry->coordinates[0];
-    //$first_lng = $parseData[0]->geometry->coordinates[1];
-    $coordinates = json_encode($parseData[0]->geometry->coordinates);
-    if(preg_match_all("/(\-?\d+(\.\d+)?),(\-?\d+(\.\d+)?)/", $coordinates, $matches)) {
-        $match = $matches[0][0];
-        $match = str_replace(array("[","]"), "", $match);
-        
-        $match = explode(",", $match);
-        $first_lat = $match[0];
-        $first_lng = $match[1];
-    }
-    else {
-        $first_lat = 0;
-        $first_lng = 0;
-    }
-}
-*/
+
 $id=$jId;
 ?>
 
@@ -82,6 +62,11 @@ $id=$jId;
 <link rel="stylesheet" href="<?php echo admin_url("../") ?>plugins/Carta/leaflet/dist/leaflet.awesome-markers.css" />
 <link rel="stylesheet" href="<?php echo admin_url("../") ?>plugins/Carta/leaflet/dist/leaflet.css" />
 <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.css" />
+
+<script type="text/javascript" src="<?php echo admin_url("../") ?>plugins/Carta/js/modal.js"></script>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.2/js/bootstrap-dialog.js'></script>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.2/css/bootstrap-dialog.css' rel='stylesheet' />
 
 <script src="<?php echo admin_url("../") ?>plugins/Carta/leaflet/dist/leaflet.js"></script>
 
@@ -107,7 +92,6 @@ $id=$jId;
   <link href='https://cdn.mapfig.com/mapfig-cdn/L.Control.Locate.ie.css' rel='stylesheet' />
 <![endif]-->
 
-
 <link href='<?php echo admin_url("../") ?>plugins/Carta/css/carta.css' rel='stylesheet' />
 <script type="text/javascript" src="<?php echo admin_url("../") ?>plugins/Carta/js/modal.js"></script>
 <?php  endif; ?>
@@ -127,7 +111,9 @@ var jsonData_<?php echo $id;?>=L.geoJson(null,{style:function(feature){return{co
 layerProperties.push(new Array(layer,properties));console.log(properties);var style=feature.style;var cp=feature.customProperties;if(style){if(layer instanceof L.Marker){if(style.markerColor){layer.setIcon(L.AwesomeMarkers.icon(style));}}
 else{layer.setStyle(style);}}
 shapeStyles.push(style);shapeCustomProperties.push(cp);renderSideBar_<?php echo $id;?>(layer);bindPopup(layer);}})
-jQuery('#map_<?php echo $id; ?> .leaflet-top.leaflet-left').append('<div id="sidebarhideshow_<?php echo $id; ?>" class="leaflet-control-sidebar leaflet-bar leaflet-control" style="z-index:10;">'+'<a class="leaflet-control-sidebar-button leaflet-bar-part" id="sidebar-button-reorder_<?php echo $id; ?>" href="#" onClick="return false;" title="Sidebar Toggle"><i class="fa fa-reorder"></i></a>'+'<div id="sidebar-buttons_<?php echo $id; ?>" class="sidebar-buttons" style="max-height: 300px; overflow: auto;">'+'<ul class="list-unstyled leaflet-sidebar">'+'</ul>'+'</div>'+'</div>');function renderSideBar_<?php echo $id;?>(layer){if(show_sidebar_<?php echo $id;?>)
+jQuery('#map_<?php echo $id; ?> .leaflet-top.leaflet-left').append('<div id="sidebarhideshow_<?php echo $id; ?>" class="leaflet-control-sidebar leaflet-bar leaflet-control" style="z-index:10;">'+'<a class="leaflet-control-sidebar-button leaflet-bar-part" id="sidebar-button-reorder_<?php echo $id; ?>" href="#" onClick="return false;" title="Sidebar Toggle"><i class="fa fa-reorder"></i></a>'+'<div id="sidebar-buttons_<?php echo $id; ?>" class="sidebar-buttons" style="max-height: 300px; overflow: auto;">'+'<ul class="list-unstyled leaflet-sidebar">'+'</ul>'+'</div>'+'</div>');
+jQuery('#map_<?php echo $id; ?> .leaflet-top.leaflet-left').append('<div id="edit_image_overlays_<?php echo $id; ?>" class="leaflet-control-sidebar leaflet-bar leaflet-control" style="z-index:10;"><a class="leaflet-control-sidebar-button leaflet-bar-part" href="#" onclick="return false;" title="Set Image Overlay Opacity"><i class="fa fa-image"></i></a></div>');
+function renderSideBar_<?php echo $id;?>(layer){if(show_sidebar_<?php echo $id;?>)
 jQuery('#sidebarhideshow_<?php echo $id; ?>').show();else{jQuery('#sidebarhideshow_<?php echo $id; ?>').hide();}
 target=jQuery('#sidebar-buttons_<?php echo $id; ?> ul.leaflet-sidebar');currentIndex=getLayerIndex(layer);lable=layerProperties[currentIndex][1][0].value;if(lable==""){lable="No Location";}
 target.append('<li><input type="checkbox" data-index="'+currentIndex+'" onClick="changeAddressCheckbox_<?php echo $id; ?>(this)" checked><a data-index="'+currentIndex+'" onClick="clickOnSidebarAddress_<?php echo $id; ?>(this)">'+lable+'</a><div class="clear"></div></li>');}
@@ -138,7 +124,7 @@ function clickOnSidebarAddress_<?php echo $id;?>(obj){var layers=getLayers();ind
 
 <?php if ($carta->show_minimap) : ?>
 new L.Control.MiniMap(defaultLayerMiniMap_<?php echo $id;?>, {toggleDisplay: true}).addTo(map_<?php echo $id;?>)._minimize(true);
-jQuery('.leaflet-control-minimap .leaflet-control-sidebar, .leaflet-control-minimap #edit_image_overlays').remove();
+jQuery('.leaflet-control-minimap .leaflet-control-sidebar, .leaflet-control-minimap #edit_image_overlays_<?php echo $id; ?>').remove();
 <?php endif; ?>
 
 <?php if ($carta->show_measure) : ?>
@@ -219,6 +205,11 @@ function imageOverlaysUpdate_<?php echo $id;?>() {
 		popup.setLatLng([imageBounds.getCenter().lat,imageBounds.getCenter().lng]);
 		imageOverlaysPopups_<?php echo $id;?>.push(popup);
 		
+		if(!value.opacity) {
+			value.opacity = 1;
+		}
+		jQuery(overlay._image).css('opacity', value.opacity);
+		
 		L.DomEvent.on(overlay._image, 'click', function(e) {
 			globalTempI = 0;
 			var dis = this;
@@ -236,7 +227,135 @@ function imageOverlaysUpdate_<?php echo $id;?>() {
 		imageOverlaysLayers_<?php echo $id;?>.push(overlay);
 	});
 }
-imageOverlaysUpdate_<?php echo $id;?>();
+setTimeout(function() {
+	imageOverlaysUpdate_<?php echo $id;?>();
+}, 500);
+
+
+
+
+jQuery(document).ready(function($) {
+	jQuery("#edit_image_overlays_<?php echo $id; ?>").click(function(e) {
+		e.preventDefault();
+		
+		var overlays = '\
+			<div class="table-responsive" id="image_overlays_modal_<?php echo $id; ?>">\
+				<table class="table table-striped table-bordered table-hover">\
+					<thead>\
+						<tr>\
+							<th style="display: none;">\
+								Overlay Image Name\
+							</th>\
+							<th>\
+								Overlay Image\
+							</th>\
+							<th>\
+								Set Opacity\
+							</th>\
+							<th style="display: none;">\
+								Bounds\
+							</th>\
+							<th style="display: none;">\
+								Pop-Up Contents\
+							</th>\
+						</tr>\
+					</thead>\
+					<tbody>\
+						\
+					</tbody>\
+				</table>\
+				<div style="clear: both;"></div>\
+			</div>\
+		';
+		
+		BootstrapDialog.show({
+			title: 'Set Image Overlays Opacity',
+			message: overlays,
+			closable: false,
+			buttons: [{
+				label: 'Save',
+				icon: 'fa fa-check',
+				cssClass: 'btn-primary',
+				action: function(dialog) {
+					imageOverlays_<?php echo $id; ?> = [];
+					jQuery('#image_overlays_modal_<?php echo $id; ?> tbody tr').each(function(index, obj) {
+						temp = {};
+						temp['name'] = jQuery(this).find('.image_overlays_name').val();
+						temp['src'] = jQuery(this).find('.image_overlays_img').attr('src');
+						temp['opacity'] = jQuery(this).find('.image_overlays_opacity_input').val();
+						temp['bounds'] = jQuery(this).find('.image_overlays_bounds_input').val();
+						temp['popupcontent'] = jQuery(this).find('.image_overlays_popupcontent_input').html();
+						
+						imageOverlays_<?php echo $id; ?>.push(temp);
+					});
+					
+					imageOverlaysUpdate_<?php echo $id; ?>(true);
+					dialog.close();
+					jQuery("body").removeClass("modal-open");
+				}
+			}, {
+				label: 'Cancel',
+				icon: 'fa fa-remove',
+				cssClass: '',
+				action: function(dialog) {
+					dialog.close();
+					jQuery("body").removeClass("modal-open");
+				}
+			}]
+		});
+		
+		setTimeout(function(){
+			jQuery.each(imageOverlays_<?php echo $id; ?>, function(key, value) {
+				jQuery('#image_overlays_modal_<?php echo $id; ?> tbody').append('\
+					<tr>\
+						<td style="display: none;">\
+							<input type="text" class="form-control image_overlays_name" value="'+value.name+'"/>\
+						</td>\
+						<td>\
+							<img src="'+value.src+'" class="image_overlays_img" style="height:60px;width:100px" alt="'+value.name+'" title="'+value.name+'"/>\
+						</td>\
+						<td>\
+							<select class="image_overlays_opacity_input">\
+								<option value="0.05" '+ ((value.opacity == "0.05") ? "selected" : "") +'>0.05</option>\
+								<option value="0.10" '+ ((value.opacity == "0.10") ? "selected" : "") +'>0.10</option>\
+								<option value="0.15" '+ ((value.opacity == "0.15") ? "selected" : "") +'>0.15</option>\
+								<option value="0.20" '+ ((value.opacity == "0.20") ? "selected" : "") +'>0.20</option>\
+								<option value="0.25" '+ ((value.opacity == "0.25") ? "selected" : "") +'>0.25</option>\
+								<option value="0.30" '+ ((value.opacity == "0.30") ? "selected" : "") +'>0.30</option>\
+								<option value="0.35" '+ ((value.opacity == "0.35") ? "selected" : "") +'>0.35</option>\
+								<option value="0.40" '+ ((value.opacity == "0.40") ? "selected" : "") +'>0.40</option>\
+								<option value="0.45" '+ ((value.opacity == "0.45") ? "selected" : "") +'>0.45</option>\
+								<option value="0.50" '+ ((value.opacity == "0.50") ? "selected" : "") +'>0.50</option>\
+								<option value="0.55" '+ ((value.opacity == "0.55") ? "selected" : "") +'>0.55</option>\
+								<option value="0.60" '+ ((value.opacity == "0.60") ? "selected" : "") +'>0.60</option>\
+								<option value="0.65" '+ ((value.opacity == "0.65") ? "selected" : "") +'>0.65</option>\
+								<option value="0.70" '+ ((value.opacity == "0.70") ? "selected" : "") +'>0.70</option>\
+								<option value="0.75" '+ ((value.opacity == "0.75") ? "selected" : "") +'>0.75</option>\
+								<option value="0.80" '+ ((value.opacity == "0.80") ? "selected" : "") +'>0.80</option>\
+								<option value="0.85" '+ ((value.opacity == "0.85") ? "selected" : "") +'>0.85</option>\
+								<option value="0.90" '+ ((value.opacity == "0.90") ? "selected" : "") +'>0.90</option>\
+								<option value="0.95" '+ ((value.opacity == "0.95") ? "selected" : "") +'>0.95</option>\
+								<option value="1" '+ ((value.opacity == "1") ? "selected" : "") +'>1</option>\
+								<option></option>\
+							</select>\
+						</td>\
+						<td style="display: none;">\
+							<a href="#" onClick="return image_overlays_bounds_click(this)" class="btn btn-info"><i class="fa fa-edit"></i> Set Image Coordinates</a>\
+							<input type="hidden" class="image_overlays_bounds_input" value="'+value.bounds+'"/>\
+						</td>\
+						<td style="display: none;">\
+							<a href="#" onClick="return image_overlays_popupcontent_click(this)" class="btn btn-info"><i class="fa fa-edit"></i> Set Pop-Up Content</a>\
+							<div style="display:none;" class="image_overlays_popupcontent_input">'+value.popupcontent+'</div>\
+						</td>\
+					</tr>\
+				');
+			});
+		}, 200);
+	});
+});
+
+
+
 </script>
 <style>
 .panel#pnlLegend_<?php echo $id;?> {
