@@ -44,8 +44,6 @@ class CartaPlugin extends Omeka_Plugin_AbstractPlugin
     }
     
     public function hookUninstall(){ 
-
-        // Drop the Location table
         $db = get_db();
         $db->query("DROP TABLE IF EXISTS `$db->Carta`");
         $db->query("DROP TABLE IF EXISTS `$db->CartaGroup`");
@@ -55,7 +53,7 @@ class CartaPlugin extends Omeka_Plugin_AbstractPlugin
     }
         
     public function hookInitialize() {
-		$CurrentVersion = 4;
+		$CurrentVersion = 5;
 		$elementSet = get_db()->getTable('ElementSet')->findBySql("name = '_carta_version'");
 		$db = get_db();
 		
@@ -74,11 +72,18 @@ class CartaPlugin extends Omeka_Plugin_AbstractPlugin
 		}
 		if((int) $elementSet[0]->description <= 2) {
 			$db->query("ALTER TABLE `$db->Carta` ADD COLUMN show_legend BOOLEAN NOT NULL DEFAULT FALSE");
-			$db->query("ALTER TABLE `$db->Carta` ADD COLUMN legend_content longtext NOT NULL DEFAULT ''");
+			$db->query("ALTER TABLE `$db->Carta` ADD COLUMN legend_content longtext NOT NULL");
 		}
 		if((int) $elementSet[0]->description <= 3) {
 			$db->query("ALTER TABLE `$db->Carta` ADD COLUMN latitude varchar(100) NOT NULL DEFAULT '0'");
 			$db->query("ALTER TABLE `$db->Carta` ADD COLUMN longitude varchar(100) NOT NULL DEFAULT '0'");
+		}
+		if((int) $elementSet[0]->description <= 4) {
+			$db->query("ALTER TABLE `$db->CartaLayer` ALTER COLUMN `name` varchar(300) NOT NULL");
+			$db->query("ALTER TABLE `$db->CartaLayer` ALTER COLUMN `url` varchar(300) NOT NULL");
+			$db->query("ALTER TABLE `$db->CartaLayer` ALTER COLUMN `key` varchar(300) NOT NULL");
+			$db->query("ALTER TABLE `$db->CartaLayer` ALTER COLUMN `accesstoken` varchar(300) NOT NULL");
+			$db->query("ALTER TABLE `$db->CartaLayer` ALTER COLUMN `attribution` varchar(300) NOT NULL");
 		}
 		
 		$db->query("UPDATE `$db->ElementSets` SET description = '{$CurrentVersion}' WHERE name = '_carta_version'");
