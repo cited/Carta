@@ -33,6 +33,7 @@ Added basic image overlay
 
 Added opacity controls
 
+
 ## Installation
 
 Copy the files to your Omeka plugins directory, <b>making sure that directory name is Carta</b>.  You can also download the current, stable zip file from us [here] (https://www.acugis.com/members/dl.php?type=d&id=16) as well. 
