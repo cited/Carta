@@ -8,24 +8,6 @@ if (count($defaultLayer) > 0){
 $first_lat = ($carta->latitude) ? $carta->latitude : 0;
 $first_lng = ($carta->longitude) ? $carta->longitude : 0;
 
-/*if (!empty($carta->pointers)) {
-    $parseData = json_decode(unserialize(base64_decode($carta->pointers)));
-    
-    $coordinates = json_encode($parseData[0]->geometry->coordinates);
-    if(preg_match_all("/(\-?\d+(\.\d+)?),(\-?\d+(\.\d+)?)/", $coordinates, $matches)) {
-        $match = $matches[0][0];
-        $match = str_replace(array("[","]"), "", $match);
-        
-        $match = explode(",", $match);
-        $first_lat = $match[0];
-        $first_lng = $match[1];
-    }
-    else {
-        $first_lat = 0;
-        $first_lng = 0;
-    }
-}*/
-
 if(!$carta) {
 	$carta = (object) array();
 }
@@ -41,7 +23,6 @@ if(!isset($carta->show_minimap)) {
 }
 ?>
 <script src="<?php echo admin_url("../") ?>plugins/Carta/js/tinymce/js/tinymce/tinymce.min.js"></script>
-
 
 <link rel="stylesheet" href="<?php echo admin_url("../") ?>plugins/Carta/leaflet/dist/leaflet.css" />
 <script src="<?php echo admin_url("../") ?>plugins/Carta/leaflet/dist/leaflet.js"></script>
@@ -859,6 +840,11 @@ function clickOnSidebarAddress(obj) {
 			popup.setLatLng([imageBounds.getCenter().lat,imageBounds.getCenter().lng]);
 			imageOverlaysPopups.push(popup);
 			
+			if(!value.opacity) {
+				value.opacity = 1;
+			}
+			jQuery(overlay._image).css('opacity', value.opacity);
+			
 			L.DomEvent.on(overlay._image, 'click', function(e) {
 				globalTempI = 0;
 				var dis = this;
@@ -1191,6 +1177,9 @@ function clickOnSidebarAddress(obj) {
 									Selected Image\
 								</th>\
 								<th>\
+									Set Opacity\
+								</th>\
+								<th>\
 									Bounds\
 								</th>\
 								<th>\
@@ -1222,6 +1211,7 @@ function clickOnSidebarAddress(obj) {
 					cssClass: 'btn-primary',
 					action: function(dialog) {
 						isOk = true;
+						isOkOpacity = true;
 						jQuery('#image_overlays_modal tbody tr').each(function(index, obj) {
 							if(jQuery(this).find('.image_overlays_bounds_input').val() == '') {
 								isOk = false;
@@ -1230,9 +1220,18 @@ function clickOnSidebarAddress(obj) {
 							else {
 								jQuery(this).css('boder','');
 							}
+							
+							if(parseFloat(jQuery(this).find('.image_overlays_opacity_input').val()) > 1 || parseFloat(jQuery(this).find('.image_overlays_opacity_input').val()) < 0) {
+								isOkOpacity = false;
+							}
 						});
+						
 						if(!isOk) {
-							Alert("Please Select the Coordinates for all the overlays","error");
+							Alert("Please Select the Coordinates for all the overlays", "error");
+							return false;
+						}
+						if(!isOkOpacity) {
+							Alert("Opacity should be between 0.0 and 1.0", "error");
 							return false;
 						}
 						
@@ -1241,6 +1240,7 @@ function clickOnSidebarAddress(obj) {
 							temp = {};
 							temp['name'] = jQuery(this).find('.image_overlays_name').val();
 							temp['src'] = jQuery(this).find('.image_overlays_img').attr('src');
+							temp['opacity'] = jQuery(this).find('.image_overlays_opacity_input').val();
 							temp['bounds'] = jQuery(this).find('.image_overlays_bounds_input').val();
 							temp['popupcontent'] = jQuery(this).find('.image_overlays_popupcontent_input').html();
 							
@@ -1271,6 +1271,9 @@ function clickOnSidebarAddress(obj) {
 							</td>\
 							<td>\
 								<img src="'+value.src+'" class="image_overlays_img" style="height:60px;width:100px" alt="'+value.name+'" title="'+value.name+'"/>\
+							</td>\
+							<td>\
+								<input type="text" class="image_overlays_opacity_input" value="'+ ((value.opacity) ? value.opacity : 1) +'" style="width: 90px;"/>\
 							</td>\
 							<td>\
 								<a href="#" onClick="return image_overlays_bounds_click(this)" class="btn btn-info"><i class="fa fa-edit"></i> Set Image Coordinates</a>\
@@ -1315,6 +1318,9 @@ function clickOnSidebarAddress(obj) {
 											</td>\
 											<td>\
 												<img src="'+data.src+'" class="image_overlays_img" style="height:60px;width:100px" alt="'+data.name+'" title="'+data.name+'"/>\
+											</td>\
+											<td>\
+												<input type="text" class="image_overlays_opacity_input" value="1" style="width: 90px;"/>\
 											</td>\
 											<td>\
 												<a href="#" onClick="return image_overlays_bounds_click(this)" class="btn btn-info"><i class="fa fa-edit"></i> Set Image Coordinates</a>\
