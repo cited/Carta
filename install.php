@@ -1,6 +1,6 @@
 <?php
 
-	$CurrentVersion = 4;
+	$CurrentVersion = 5;
 	$db = get_db();
 
 
@@ -19,7 +19,7 @@
 				  `show_minimap` BOOLEAN NOT NULL DEFAULT TRUE,
 				  `show_sidebar` BOOLEAN NOT NULL DEFAULT TRUE,
 				  `show_legend` BOOLEAN NOT NULL DEFAULT FALSE,
-				  `legend_content` longtext NOT NULL DEFAULT '',
+				  `legend_content` longtext NOT NULL,
                   `latitude` varchar(100) NOT NULL DEFAULT '0',
                   `longitude` varchar(100) NOT NULL DEFAULT '0',
                   PRIMARY KEY (`id`)
@@ -40,7 +40,7 @@
 
           $sql = "
             CREATE TABLE IF NOT EXISTS `$db->CartaLayer` (
-                `id` int(11) NOT NULL AUTO_INCREMENT,
+              `id` int(11) NOT NULL AUTO_INCREMENT,
               `name` varchar(300) NOT NULL,
               `url` varchar(300) NOT NULL,
               `key` varchar(300) NOT NULL,
