@@ -1,6 +1,6 @@
 <?php
 
-	$CurrentVersion = 5;
+	$CurrentVersion = 6;
 	$db = get_db();
 
 
@@ -19,6 +19,7 @@
 				  `show_minimap` BOOLEAN NOT NULL DEFAULT TRUE,
 				  `show_sidebar` BOOLEAN NOT NULL DEFAULT TRUE,
 				  `show_legend` BOOLEAN NOT NULL DEFAULT FALSE,
+				  `show_cluster` BOOLEAN NOT NULL DEFAULT FALSE,
 				  `legend_content` longtext NOT NULL,
                   `latitude` varchar(100) NOT NULL DEFAULT '0',
                   `longitude` varchar(100) NOT NULL DEFAULT '0',
