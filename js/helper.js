@@ -51,7 +51,12 @@ function getPopupContent(layer) {
         }
         if (customProperties.show_address_on_popup) {
             if (property.name == "Name") {
-                popupContent += '<b>' + property.value + '</b><br/>';
+				if(customProperties.bootstrap_popup) {
+					popupContent += '<b class="title" id="static-popup-title">' + property.value + '</b><br/>';
+				}
+				else {
+					popupContent += '<b>' + property.value + '</b><br/>';
+				}
                 return true;
             }
         }
@@ -106,20 +111,24 @@ function clickOnSidebarAddress(obj) {
 }
 
 function openPopup(layer) {
+	mapClosePopup();
     index = getLayerIndex(layer);
+	
     if (shapeCustomProperties[index].bootstrap_popup) {
         setTimeout(function() {
             map.closePopup();
-            cartaOpenPopup(layer);
+            mapOpenPopup(layer);
         }, 50);
     }
 }
 
-function cartaOpenPopup(layer) {
-    popupContent = getPopupContent(layer)
-    jQuery('.carta-modal-body').html(popupContent);
-    jQuery('#carta-myModal').addClass('carta-in').fadeIn(0);
-    cartaPopupCentralized();
+function mapClosePopup() {
+	jQuery('#static-popup').fadeOut();
+}
+function mapOpenPopup(layer) {
+	popupContent = getPopupContent(layer)
+	jQuery('#static-popup-content').html(popupContent);
+	jQuery('#static-popup').fadeIn();
 }
 
 function cartaPopupCentralized() {
