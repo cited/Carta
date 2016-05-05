@@ -36,6 +36,7 @@ class Carta_IndexController extends Omeka_Controller_AbstractActionController
 		$cartaDetail['show_sidebar'] = isset($_POST['show_sidebar']);
 		$cartaDetail['show_measure'] = isset($_POST['show_measure']);
 		$cartaDetail['show_minimap'] = isset($_POST['show_minimap']);
+		$cartaDetail['show_cluster'] = isset($_POST['show_cluster']);
 		
 		$cartaDetail['show_legend'] = isset($_POST['show_legend']);
 		$cartaDetail['legend_content'] = base64_encode($_POST['legend_content']);
