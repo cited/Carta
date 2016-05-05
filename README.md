@@ -3,7 +3,7 @@
 Leaflet Plugin for Omeka
 
 Stand alone plugin for adding Leaflet maps to your Omeka installation
-# Version 1.2.1
+# Version 1.2.2
 
 ## Description
 
