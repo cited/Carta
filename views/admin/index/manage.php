@@ -21,6 +21,9 @@ if(!isset($carta->show_sidebar)) {
 if(!isset($carta->show_minimap)) {
 	$carta->show_minimap = true;
 }
+if(!isset($carta->show_cluster)) {
+	$carta->show_cluster = false;
+}
 ?>
 <script src="<?php echo admin_url("../") ?>plugins/Carta/js/tinymce/js/tinymce/tinymce.min.js"></script>
 
@@ -105,6 +108,11 @@ if(!isset($carta->show_minimap)) {
     <div>
         <label for="">Show Distance Measure</label> 
         <input type="checkbox" name="show_measure"  id="show_measure"  <?php echo ($carta->show_measure) ? 'checked' : ''; ?> style="width: auto;">
+    </div>
+	<br>
+    <div>
+        <label for="">Show Clusters</label> 
+        <input type="checkbox" name="show_cluster"  id="show_cluster"  <?php echo ($carta->show_cluster) ? 'checked' : ''; ?> style="width: auto;">
     </div>
 	<br>
     <div>
@@ -404,7 +412,10 @@ var jsonData = L.geoJson(null, {
                     setTimeout(function(){
                         map.closePopup();
                     },50);
-                }                
+                }
+				else {
+					openPopup(layer);
+				}
             });            
 
             properties1 = feature.properties;
@@ -698,6 +709,54 @@ function clickOnSidebarAddress(obj) {
 		});
 	});
 </script>
+
+
+
+
+
+
+
+<script>
+	function staticSidebarPopupResize() {
+		m_height = jQuery("#map").height();
+		height = m_height-40;
+		
+		jQuery('#static-popup').css('max-height',height).css('min-width',250);
+	}
+	
+	jQuery(document).ready(function($) {
+		jQuery("#map").append('\
+			<div class="bubble static bound selected" id="static-popup" style="display: none;">\
+				<a name="close" class="close" id="static-popup-close" onClick="mapClosePopup();"><i class="fa fa-close"></i></a>\
+				<div class="content body" rv-html="record:body" rv-show="record:body" id="static-popup-content"></div>\
+			</div>\
+		');
+		staticSidebarPopupResize();
+	});
+</script>
+<style>
+.close {
+    float: right;
+    font-size: 21px;
+    font-weight: bold;
+    line-height: 1;
+    color: #000000;
+    text-shadow: 0 1px 0 #ffffff;
+    opacity: 0.2;
+    filter: alpha(opacity=20);
+}
+.close:hover, .close:focus {
+    color: #000000;
+    text-decoration: none;
+    cursor: pointer;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+}
+.bubble.static {
+	padding: 14px;
+}
+</style>
+
 
 
 
