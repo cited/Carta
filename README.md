@@ -33,6 +33,10 @@ Added basic image overlay
 
 Added opacity controls
 
+Added marker clustering
+
+Added fancy modal infoBox option
+
 
 ## Installation
 
