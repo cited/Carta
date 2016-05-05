@@ -50,4 +50,10 @@ Activate the plugin from the Omeka plugins page
   - Please check here or at docs site for examples.
   
   - Please report any issues to **[hello(at)acugis(dot).com](mailto:hello@acugis.com)**.
+  
+  
+## Documentation
+
+Please see [Documentation](https://www.acugis.com/Carta) site.
+
  
