@@ -1,3 +1,6 @@
+
+![Carta Leaflet Plugin for Omeka](https://www.acugis.com/img/carta-banner.jpg)
+
 # Carta Omeka Plugin
 
 Leaflet Plugin for Omeka
