@@ -53,7 +53,7 @@ class CartaPlugin extends Omeka_Plugin_AbstractPlugin
     }
         
     public function hookInitialize() {
-		$CurrentVersion = 5;
+		$CurrentVersion = 6;
 		$elementSet = get_db()->getTable('ElementSet')->findBySql("name = '_carta_version'");
 		$db = get_db();
 		
@@ -84,6 +84,9 @@ class CartaPlugin extends Omeka_Plugin_AbstractPlugin
 			$db->query("ALTER TABLE `$db->CartaLayer` ALTER COLUMN `key` varchar(300) NOT NULL");
 			$db->query("ALTER TABLE `$db->CartaLayer` ALTER COLUMN `accesstoken` varchar(300) NOT NULL");
 			$db->query("ALTER TABLE `$db->CartaLayer` ALTER COLUMN `attribution` varchar(300) NOT NULL");
+		}
+		if((int) $elementSet[0]->description <= 5) {
+			$db->query("ALTER TABLE `$db->Carta` ADD COLUMN show_cluster BOOLEAN NOT NULL DEFAULT FALSE");
 		}
 		
 		$db->query("UPDATE `$db->ElementSets` SET description = '{$CurrentVersion}' WHERE name = '_carta_version'");
