@@ -45,7 +45,7 @@
               `name` varchar(300) NOT NULL,
               `url` varchar(300) NOT NULL,
               `key` varchar(300) NOT NULL,
-              `accesstoken` varchar(300) NOT NULL,
+              `accesstoken` varchar(300),
               `attribution` varchar(300) NOT NULL,
               PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1";
