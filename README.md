@@ -8,6 +8,8 @@ Leaflet Plugin for Omeka
 Stand alone plugin for adding Leaflet maps to your Omeka installation
 # Version 1.2.2
 
+## Download latest version 2.1.1 from http://omeka.org/add-ons/plugins/carta/
+
 ## Description
 
 Add Leaflet maps via shortcode to your pages, exhibits, items, and collections.
