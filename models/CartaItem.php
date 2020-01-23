@@ -9,5 +9,5 @@ class CartaItem extends Omeka_Record_AbstractRecord
     public $baselayer;
     public $layergroup;
     public $pointers;
-    public $type;   
+    public $type;
 }

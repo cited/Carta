@@ -1,20 +1,20 @@
-<?php 
+<?php
 
 class Table_CartaGroup extends Omeka_Db_Table
 {
-	function getAll(){
-
-		$db = get_db();
+    public function getAll()
+    {
+        $db = get_db();
        
         $select = $db->select()->from($db->CartaGroup);
        
-        $carta = $this->fetchObjects($select);        
+        $carta = $this->fetchObjects($select);
         
         return $carta;
-	}
+    }
 
-    function getById($id){
-
+    public function getById($id)
+    {
         $db = get_db();
        
         $select = $db->select()->from($db->CartaGroup);
@@ -26,8 +26,8 @@ class Table_CartaGroup extends Omeka_Db_Table
         return $carta;
     }
 
-	function insert($cartadata){
-                
+    public function insert($cartadata)
+    {
         $db = get_db();
         $sql = $this->makeInsertQuery($cartadata);
         $sql = "INSERT INTO $db->CartaGroup " . $sql;
@@ -35,9 +35,8 @@ class Table_CartaGroup extends Omeka_Db_Table
         $db->query($sql);
     }
 
-    function update($cartadata, $id){
-       
-       
+    public function update($cartadata, $id)
+    {
         $sql = $this->makeUpdateQuery($cartadata);
         
         $db = get_db();
@@ -47,49 +46,48 @@ class Table_CartaGroup extends Omeka_Db_Table
         return ;
     }
 
-    function delete($id){
-
+    public function delete($id)
+    {
         $db = get_db();
         $sql = '';
         
-        $sql = "DELETE from $db->CartaGroup where id='{$id}'";        
+        $sql = "DELETE from $db->CartaGroup where id='{$id}'";
 
         $db->query($sql);
-
     }
 
     
-    function makeInsertQuery($cartaData){
-
-        $keyvalues=''; $values='';       
+    public function makeInsertQuery($cartaData)
+    {
+        $keyvalues='';
+        $values='';
         
-        foreach($cartaData as $key=>$value){
+        foreach ($cartaData as $key=>$value) {
             $keyvalues .= $key.',';
             $values .= "'" . $value . "',";
         }
 
-        $keyvalues=substr($keyvalues,0,strlen($keyvalues)-1);
+        $keyvalues=substr($keyvalues, 0, strlen($keyvalues)-1);
         
-        $values=substr($values,0,strlen($values)-1);
+        $values=substr($values, 0, strlen($values)-1);
         
         $query = "($keyvalues) values ($values)";
         return $query;
     }
 
     
-    function makeUpdateQuery($cartadata){
-
+    public function makeUpdateQuery($cartadata)
+    {
         $keyvalues='';
         
-        foreach($cartadata as $key=>$value){
+        foreach ($cartadata as $key=>$value) {
             $keyvalues .= $key ."='". $value . "',";
         }
         
-        $keyvalues = substr($keyvalues,0,strlen($keyvalues)-1);
+        $keyvalues = substr($keyvalues, 0, strlen($keyvalues)-1);
            
-        $query = "SET $keyvalues";          
+        $query = "SET $keyvalues";
     
-        return $query;    
+        return $query;
     }
-
 }
